@@ -675,7 +675,7 @@ void() trap_gasshooter =
 	self.estate = ESTATE_ON;
 
 	if (self.spawnflags & TRAP_STARTON) {
-		trap_gasshooter_on();
+		self.estate_on();
 	}
 	else {
 		self.state = STATE_OFF;
