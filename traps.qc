@@ -19,6 +19,7 @@ float TRAP_GASPOISON = 4;
 float TRAP_GASSILENT = 16;		// No particle sound effects
 
 float TRAP_TOGGLE = 32;			// Toggle function with triggered
+float TRAP_STARTON = 64;        // Trap will be active when created
 float TRAP_TRACKING = 128;		// Keep updating the target position
 
 //======================================================================
@@ -26,19 +27,20 @@ float TRAP_TRACKING = 128;		// Keep updating the target position
 When triggered, fires a SPIKE in the direction determined by angle
 -------- KEYS --------
 targetname : toggle state (use trigger ent for exact state)
-target : targeting entity used for custom direction
-angle  : direction for projectile to follow, use "360" for angle 0
-wait   : time between projectiles (def=0s)
-delay  : random time between projectile (def=0s)
-count  : = 1 Continuous mode (toggle/trigger to switch off)
-speed  : Change projectile speed (def/sng=500, laser=600, wiz=500, hell=300)
+target     : targeting entity used for custom direction
+angle      : direction for projectile to follow, use "360" for angle 0
+wait       : time between projectiles (def=0s)
+delay      : random time between projectile (def=0s)
+count      : = 1 Continuous mode (toggle/trigger to switch off)
+speed      : Change projectile speed (def/sng=500, laser=600, wiz=500, hell=300)
 -------- SPAWNFLAGS --------
-SNG    : shoots large spike (SNG damage)
-LASER  : shoots laser (Enforcer damage)
-WIZARD : shoots acid spike (Wizard damage)
-HELLK  : shoots fire spike (Hell Knight damage)
-TOGGLE : Trigger will toggle the shooter on/off instead
-TRACK  : Will update target entity origin before firing
+SNG     : shoots large spike (SNG damage)
+LASER   : shoots laser (Enforcer damage)
+WIZARD  : shoots acid spike (Wizard damage)
+HELLK   : shoots fire spike (Hell Knight damage)
+TOGGLE  : Trigger will toggle the shooter on/off instead
+STARTON : Start firing straight away
+TRACK   : Will update target entity origin before firing
 -------- NOTES --------
 When triggered, fires a SPIKE in the direction determined by angle
 Use TOGGLE spawnflag and trigger to enable continuous mode
@@ -671,7 +673,13 @@ void() trap_gasshooter =
 	self.estate_off = trap_gasshooter_off;
 	self.estate_on = trap_gasshooter_on;
 	self.estate = ESTATE_ON;
-	self.state = STATE_OFF;
+
+	if (self.spawnflags & TRAP_STARTON) {
+		trap_gasshooter_on();
+	}
+	else {
+		self.state = STATE_OFF;
+	}
 
 	// If target is setup, calculate new facing angle
 	if (self.target != "") {
