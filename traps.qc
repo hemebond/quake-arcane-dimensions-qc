@@ -250,7 +250,13 @@ void() trap_spikeshooter =
 	self.estate_use = trap_shooter_use;
 	self.estate_reset = trap_shooter_reset;
 	self.estate = ESTATE_ON;
-	self.state = STATE_OFF;
+
+	if (self.spawnflags & TRAP_STARTON) {
+		self.estate_on();
+	}
+	else {
+		self.state = STATE_OFF;
+	}
 
 	// If target is setup, calculate new facing angle
 	if (self.target != "") {
@@ -307,7 +313,13 @@ void() trap_grenadeshooter =
 	self.estate_use = trap_shooter_use;
 	self.estate_reset = trap_shooter_reset;
 	self.estate = ESTATE_ON;
-	self.state = STATE_OFF;
+
+	if (self.spawnflags & TRAP_STARTON) {
+		self.estate_on();
+	}
+	else {
+		self.state = STATE_OFF;
+	}
 
 	// If target is setup, calculate new facing angle
 	if (self.target != "") {
@@ -390,7 +402,13 @@ void() trap_rocketshooter =
 	self.estate_use = trap_shooter_use;
 	self.estate_reset = trap_shooter_reset;
 	self.estate = ESTATE_ON;
-	self.state = STATE_OFF;
+
+	if (self.spawnflags & TRAP_STARTON) {
+		self.estate_on();
+	}
+	else {
+		self.state = STATE_OFF;
+	}
 
 	// If target is setup, calculate new facing angle
 	if (self.target != "") {
@@ -458,7 +476,13 @@ void() trap_lightningshooter =
 	self.estate_use = trap_shooter_use;
 	self.estate_reset = trap_shooter_reset;
 	self.estate = ESTATE_ON;
-	self.state = STATE_OFF;
+
+	if (self.spawnflags & TRAP_STARTON) {
+		self.estate_on();
+	}
+	else {
+		self.state = STATE_OFF;
+	}
 
 	// Find target once everything has spawned
 	self.angletarget = self.target;
